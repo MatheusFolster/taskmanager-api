@@ -8,7 +8,9 @@ import org.hibernate.annotations.BatchSize;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -46,6 +48,11 @@ public class Task {
     @BatchSize(size = 20)
     @Builder.Default
     private Set<String> tags = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "task", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @BatchSize(size = 20)
+    @Builder.Default
+    private List<Subtask> subtasks = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id", nullable = false)

@@ -68,7 +68,7 @@ class TaskServiceTest {
 
         taskResponse = new TaskResponse(1L, 1L, "Task 1", null,
                 TaskStatus.TODO, TaskPriority.MEDIUM, null, Set.of(),
-                task.getCreatedAt(), task.getUpdatedAt());
+                0, task.getCreatedAt(), task.getUpdatedAt());
     }
 
     @Test

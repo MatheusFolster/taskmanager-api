@@ -16,6 +16,7 @@ public record TaskResponse(
         TaskPriority priority,
         LocalDate dueDate,
         Set<String> tags,
+        int progress,
         LocalDateTime createdAt,
         LocalDateTime updatedAt
 ) {
