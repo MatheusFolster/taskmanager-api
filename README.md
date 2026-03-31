@@ -153,7 +153,7 @@ com.taskmanager
 
 ### 🔲 Fase 6 — Opcional / Nice to Have
 
-- Docker Compose (API + PostgreSQL)
+- ✅ Docker Compose (API + PostgreSQL)
 - Pipeline de CI com GitHub Actions
 - Frontend em Angular + Tailwind + PrimeNG
 
@@ -171,7 +171,44 @@ User
 
 ---
 
-## Executando Localmente
+## Executando com Docker (recomendado)
+
+### Pré-requisitos
+
+- Docker e Docker Compose
+
+### 1. Configurar variáveis de ambiente
+
+```bash
+cp .env.example .env
+```
+
+Edite `.env` e defina um `JWT_SECRET` seguro (base64, mínimo 256 bits):
+
+```bash
+# Gerar uma chave segura:
+openssl rand -base64 32
+```
+
+### 2. Subir os containers
+
+```bash
+docker compose up --build
+```
+
+A API e o PostgreSQL sobem juntos. O Flyway executa as migrations automaticamente.
+
+### 3. Acessar o Swagger UI
+
+```
+http://localhost:8080/swagger-ui.html
+```
+
+Use `POST /auth/register` para criar uma conta, `POST /auth/login` para obter o token, depois clique em **Authorize** e cole o token.
+
+---
+
+## Executando Localmente (sem Docker)
 
 ### Pré-requisitos
 
@@ -187,14 +224,7 @@ CREATE DATABASE taskmanager;
 
 ### 2. Configurar credenciais
 
-A configuração padrão em `application.properties` usa:
-
-```
-spring.datasource.username=postgres
-spring.datasource.password=postgres
-```
-
-Para sobrescrever, use variáveis de ambiente:
+A configuração padrão usa `postgres/postgres`. Para sobrescrever, use variáveis de ambiente:
 
 ```bash
 export DB_USERNAME=seu_usuario
@@ -205,18 +235,9 @@ export JWT_SECRET=sua_chave_base64   # mínimo 256 bits
 ### 3. Subir a aplicação
 
 ```bash
+cd task-manager-api-backend
 ./mvnw spring-boot:run
 ```
-
-O Flyway executa as migrations automaticamente na inicialização.
-
-### 4. Acessar o Swagger UI
-
-```
-http://localhost:8080/swagger-ui.html
-```
-
-Use `POST /auth/register` para criar uma conta, `POST /auth/login` para obter o token, depois clique em **Authorize** e cole o token.
 
 ---
 
