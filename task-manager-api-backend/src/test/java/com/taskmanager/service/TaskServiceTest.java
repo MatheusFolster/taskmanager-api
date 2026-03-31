@@ -105,7 +105,7 @@ class TaskServiceTest {
         var request = new UpdateTaskStatusRequest(TaskStatus.IN_PROGRESS);
         var updatedResponse = new TaskResponse(1L, 1L, "Task 1", null,
                 TaskStatus.IN_PROGRESS, TaskPriority.MEDIUM, null, Set.of(),
-                task.getCreatedAt(), LocalDateTime.now());
+                0, task.getCreatedAt(), LocalDateTime.now());
 
         when(userRepository.findByEmail(owner.getEmail())).thenReturn(Optional.of(owner));
         when(taskRepository.findByIdAndProjectUser(1L, owner)).thenReturn(Optional.of(task));

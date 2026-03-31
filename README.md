@@ -27,19 +27,19 @@ Todas as rotas são protegidas por **JWT**. Cada usuário acessa apenas os seus 
 │  ┌────────▼──────────────────────────────┐  │
 │  │           Controllers                 │  │
 │  │  AuthController  ProjectController    │  │
-│  │  TaskController  (SubtaskController)  │  │
+│  │  TaskController  SubtaskController    │  │
 │  └────────────────────┬──────────────────┘  │
 │                       │                     │
 │  ┌────────────────────▼──────────────────┐  │
 │  │             Services                  │  │
 │  │  AuthService  ProjectService          │  │
-│  │  TaskService  (SubtaskService)        │  │
+│  │  TaskService  SubtaskService          │  │
 │  └────────────────────┬──────────────────┘  │
 │                       │                     │
 │  ┌────────────────────▼──────────────────┐  │
 │  │           Repositories                │  │
 │  │  UserRepo  ProjectRepo  TaskRepo      │  │
-│  │  RefreshTokenRepo  (SubtaskRepo)      │  │
+│  │  RefreshTokenRepo  SubtaskRepo        │  │
 │  └────────────────────┬──────────────────┘  │
 │                       │                     │
 └───────────────────────┼─────────────────────┘
@@ -63,7 +63,8 @@ com.taskmanager
 ├── dto/
 │   ├── auth/        # RegisterRequest, LoginRequest, AuthResponse...
 │   ├── project/     # CreateProjectRequest, ProjectResponse...
-│   └── task/        # CreateTaskRequest, TaskResponse...
+│   ├── task/        # CreateTaskRequest, TaskResponse...
+│   └── subtask/     # CreateSubtaskRequest, SubtaskResponse
 ├── mapper/          # Interfaces MapStruct
 ├── exception/       # GlobalExceptionHandler, ApiError, exceções customizadas
 ├── security/        # JwtUtil, JwtAuthenticationFilter, UserDetailsServiceImpl
@@ -127,13 +128,16 @@ com.taskmanager
 
 **Campos da tarefa:** título, descrição, status (`TODO` / `IN_PROGRESS` / `DONE` / `CANCELLED`), prioridade (`LOW` / `MEDIUM` / `HIGH` / `URGENT`), dueDate, tags (conjunto livre de strings — deduplicado automaticamente).
 
-### 🔲 Fase 3 — Subtarefas (próxima)
+### ✅ Fase 3 — Subtarefas (concluída)
 
-- `POST /tasks/{id}/subtasks` — criar subtarefa
-- `GET /tasks/{id}/subtasks` — listar subtarefas
-- `PATCH /subtasks/{id}/complete` — marcar como concluída
-- `DELETE /subtasks/{id}` — remover subtarefa
-- Progresso da tarefa calculado pelo `% de subtarefas concluídas`
+| Método | Rota | Descrição |
+|---|---|---|
+| `GET` | `/tasks/{id}/subtasks` | Lista subtarefas em ordem de criação |
+| `POST` | `/tasks/{id}/subtasks` | Cria subtarefa (201 + header Location) |
+| `PATCH` | `/subtasks/{id}/complete` | Marca subtarefa como concluída |
+| `DELETE` | `/subtasks/{id}` | Remove subtarefa |
+
+**Progresso da tarefa:** o campo `progress` no `TaskResponse` retorna o percentual de subtarefas concluídas (0 quando não há subtarefas).
 
 ### 🔲 Fase 4 — Qualidade e Cobertura
 
@@ -162,7 +166,7 @@ User
  └── Project (1:N)
       └── Task (1:N)
            ├── tags: Set<String>  (@ElementCollection)
-           └── Subtask (1:N)      [Fase 3]
+           └── Subtask (1:N)
 ```
 
 ---
@@ -224,16 +228,18 @@ Os testes utilizam banco **H2 em memória** — nenhum PostgreSQL é necessário
 ./mvnw test
 ```
 
-Cobertura atual: **48 testes** em 6 classes de teste (unitários + integração).
+Cobertura atual: **63 testes** em 8 classes de teste (unitários + integração).
 
 | Classe de teste | Tipo | Testes |
 |---|---|---|
 | `AuthServiceTest` | Unitário (Mockito) | 8 |
 | `ProjectServiceTest` | Unitário (Mockito) | 8 |
 | `TaskServiceTest` | Unitário (Mockito) | 6 |
+| `SubtaskServiceTest` | Unitário (Mockito) | 8 |
 | `AuthControllerTest` | Integração (MockMvc) | 9 |
 | `ProjectControllerTest` | Integração (MockMvc) | 10 |
 | `TaskControllerTest` | Integração (MockMvc) | 7 |
+| `SubtaskControllerTest` | Integração (MockMvc) | 7 |
 
 ---
 

@@ -4,5 +4,8 @@
       "Bash(./mvnw compile:*)",
       "Bash(./mvnw test:*)"
     ]
+  },
+  "enabledPlugins": {
+    "superpowers@claude-plugins-official": true
   }
 }
