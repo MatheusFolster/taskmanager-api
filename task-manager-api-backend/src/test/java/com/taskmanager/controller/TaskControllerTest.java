@@ -11,6 +11,7 @@ import com.taskmanager.entity.enums.TaskPriority;
 import com.taskmanager.entity.enums.TaskStatus;
 import com.taskmanager.repository.ProjectRepository;
 import com.taskmanager.repository.RefreshTokenRepository;
+import com.taskmanager.repository.SubtaskRepository;
 import com.taskmanager.repository.TaskRepository;
 import com.taskmanager.repository.UserRepository;
 import com.taskmanager.security.JwtUtil;
@@ -40,6 +41,7 @@ class TaskControllerTest {
     @Autowired UserRepository userRepository;
     @Autowired ProjectRepository projectRepository;
     @Autowired TaskRepository taskRepository;
+    @Autowired SubtaskRepository subtaskRepository;
     @Autowired RefreshTokenRepository refreshTokenRepository;
     @Autowired PasswordEncoder passwordEncoder;
     @Autowired JwtUtil jwtUtil;
@@ -50,6 +52,7 @@ class TaskControllerTest {
 
     @BeforeEach
     void setUp() {
+        subtaskRepository.deleteAll();
         refreshTokenRepository.deleteAll();
         taskRepository.deleteAll();
         projectRepository.deleteAll();

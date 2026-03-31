@@ -8,6 +8,8 @@ import com.taskmanager.entity.User;
 import com.taskmanager.entity.enums.ProjectStatus;
 import com.taskmanager.repository.ProjectRepository;
 import com.taskmanager.repository.RefreshTokenRepository;
+import com.taskmanager.repository.SubtaskRepository;
+import com.taskmanager.repository.TaskRepository;
 import com.taskmanager.repository.UserRepository;
 import com.taskmanager.security.JwtUtil;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,6 +35,8 @@ class ProjectControllerTest {
     @Autowired ObjectMapper objectMapper;
     @Autowired UserRepository userRepository;
     @Autowired ProjectRepository projectRepository;
+    @Autowired TaskRepository taskRepository;
+    @Autowired SubtaskRepository subtaskRepository;
     @Autowired RefreshTokenRepository refreshTokenRepository;
     @Autowired PasswordEncoder passwordEncoder;
     @Autowired JwtUtil jwtUtil;
@@ -42,7 +46,9 @@ class ProjectControllerTest {
 
     @BeforeEach
     void setUp() {
+        subtaskRepository.deleteAll();
         refreshTokenRepository.deleteAll();
+        taskRepository.deleteAll();
         projectRepository.deleteAll();
         userRepository.deleteAll();
 
