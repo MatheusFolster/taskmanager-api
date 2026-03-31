@@ -23,7 +23,9 @@ jobs:
 
       - name: Run tests
         working-directory: task-manager-api-backend
-        run: ./mvnw test
+        run: |
+          chmod +x mvnw
+          ./mvnw test
 
       - name: Upload test report
         if: failure()
