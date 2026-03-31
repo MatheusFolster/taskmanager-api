@@ -1,5 +1,7 @@
 # Task Manager API
 
+[![CI](https://github.com/MatheusFolster/taskmanager-api/actions/workflows/ci.yml/badge.svg)](https://github.com/MatheusFolster/taskmanager-api/actions/workflows/ci.yml)
+
 API REST para gestão de tarefas pessoais com hierarquia **Projetos → Tarefas → Subtarefas**. Projeto de portfólio focado em demonstrar arquitetura Spring Boot profissional, código limpo e cobertura de testes.
 
 ---
@@ -154,7 +156,7 @@ com.taskmanager
 ### 🔲 Fase 6 — Opcional / Nice to Have
 
 - ✅ Docker Compose (API + PostgreSQL)
-- Pipeline de CI com GitHub Actions
+- ✅ Pipeline de CI com GitHub Actions
 - Frontend em Angular + Tailwind + PrimeNG
 
 ---
