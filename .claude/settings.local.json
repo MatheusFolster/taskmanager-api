@@ -2,7 +2,11 @@
   "permissions": {
     "allow": [
       "Bash(./mvnw compile:*)",
-      "Bash(./mvnw test:*)"
+      "Bash(./mvnw test:*)",
+      "Bash(py -3 -c ':*)",
+      "Bash(cp -r c:/Users/Mathe/OneDrive/Desktop/Programação/Projetos/task-manager/teste-manager-frontend/teste-manager-frontend/src c:/Users/Mathe/OneDrive/Desktop/Programação/Projetos/task-manager/teste-manager-frontend/)",
+      "Bash(cp -r c:/Users/Mathe/OneDrive/Desktop/Programação/Projetos/task-manager/teste-manager-frontend/teste-manager-frontend/public c:/Users/Mathe/OneDrive/Desktop/Programação/Projetos/task-manager/teste-manager-frontend/)",
+      "Bash(npm install:*)"
     ]
   },
   "enabledPlugins": {
