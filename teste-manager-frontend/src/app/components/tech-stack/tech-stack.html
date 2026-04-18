@@ -1,0 +1,30 @@
+<section id="stack" class="py-24 px-6">
+  <div class="max-w-6xl mx-auto">
+
+    <div class="mb-16 text-center">
+      <h2 class="text-3xl font-bold text-gray-900 mb-4">Stack Tecnológica</h2>
+      <p class="text-gray-500 max-w-xl mx-auto">
+        Tecnologias escolhidas para demonstrar profundidade técnica e boas práticas.
+      </p>
+    </div>
+
+    <div class="flex flex-col gap-6">
+      @for (group of groups; track group.category) {
+        <div class="flex flex-col sm:flex-row sm:items-start gap-4">
+          <span class="text-xs font-medium text-gray-400 uppercase tracking-wider w-32 shrink-0 pt-1">
+            {{ group.category }}
+          </span>
+          <div class="flex flex-wrap gap-2">
+            @for (item of group.items; track item) {
+              <span
+                data-testid="tech-badge"
+                class="inline-flex items-center px-3 py-1 text-xs font-medium bg-gray-100 text-gray-700 border border-gray-200 rounded-full"
+              >{{ item }}</span>
+            }
+          </div>
+        </div>
+      }
+    </div>
+
+  </div>
+</section>

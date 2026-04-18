@@ -89,12 +89,15 @@ com.taskmanager
 | Boilerplate | Lombok |
 | Documentação | Swagger / OpenAPI 3 (springdoc 2.8.4) |
 | Testes | JUnit 5 + Mockito + MockMvc |
+| Cobertura | JaCoCo 0.8.12 |
+| Frontend | Angular 21 + Tailwind CSS |
+| DevOps | Docker Compose + GitHub Actions |
 
 ---
 
-## Status do Projeto
+## Endpoints
 
-### ✅ Fase 1 — Autenticação (concluída)
+### ✅ Fase 1 — Autenticação
 
 - `POST /auth/register` — cria conta de usuário e retorna JWT
 - `POST /auth/login` — valida credenciais e retorna JWT
@@ -104,7 +107,7 @@ com.taskmanager
 - Todas as rotas protegidas exceto `/auth/**` e `/swagger-ui/**`
 - Respostas de erro padronizadas com `timestamp`, `status`, `message` e `path`
 
-### ✅ Fase 2 — Projetos e Tarefas (concluída)
+### ✅ Fase 2 — Projetos e Tarefas
 
 **Projetos**
 
@@ -130,7 +133,7 @@ com.taskmanager
 
 **Campos da tarefa:** título, descrição, status (`TODO` / `IN_PROGRESS` / `DONE` / `CANCELLED`), prioridade (`LOW` / `MEDIUM` / `HIGH` / `URGENT`), dueDate, tags (conjunto livre de strings — deduplicado automaticamente).
 
-### ✅ Fase 3 — Subtarefas (concluída)
+### ✅ Fase 3 — Subtarefas
 
 | Método | Rota | Descrição |
 |---|---|---|
@@ -140,24 +143,6 @@ com.taskmanager
 | `DELETE` | `/subtasks/{id}` | Remove subtarefa |
 
 **Progresso da tarefa:** o campo `progress` no `TaskResponse` retorna o percentual de subtarefas concluídas (0 quando não há subtarefas).
-
-### 🔲 Fase 4 — Qualidade e Cobertura
-
-- Cobertura de testes ≥ 80% nas camadas Service e Controller
-- Refatoração e revisão de código
-- Código limpo sem warnings no SonarLint / Checkstyle
-
-### 🔲 Fase 5 — Swagger + README
-
-- Anotações Swagger completas em todos os endpoints
-- Diagrama de entidades
-- Documentação das decisões de arquitetura
-
-### 🔲 Fase 6 — Opcional / Nice to Have
-
-- ✅ Docker Compose (API + PostgreSQL)
-- ✅ Pipeline de CI com GitHub Actions
-- Frontend em Angular + Tailwind + PrimeNG
 
 ---
 
@@ -243,15 +228,39 @@ cd task-manager-api-backend
 
 ---
 
+## Frontend (Landing Page)
+
+A landing page do projeto fica em `teste-manager-frontend/` e apresenta a API para visitantes e recrutadores.
+
+### Pré-requisitos
+
+- Node.js 20+
+- Angular CLI 21
+
+### Executar localmente
+
+```bash
+cd teste-manager-frontend
+npm install
+ng serve
+```
+
+Acesse `http://localhost:4200`.
+
+**Stack do frontend:** Angular 21 · TypeScript 5.9 · Tailwind CSS 3.4 · highlight.js
+
+---
+
 ## Executando os Testes
 
 Os testes utilizam banco **H2 em memória** — nenhum PostgreSQL é necessário.
 
 ```bash
+cd task-manager-api-backend
 ./mvnw test
 ```
 
-Cobertura atual: **63 testes** em 8 classes de teste (unitários + integração).
+**Cobertura: 90% de instruções** — 63 testes em 8 classes de teste (unitários + integração).
 
 | Classe de teste | Tipo | Testes |
 |---|---|---|
@@ -263,6 +272,12 @@ Cobertura atual: **63 testes** em 8 classes de teste (unitários + integração)
 | `ProjectControllerTest` | Integração (MockMvc) | 10 |
 | `TaskControllerTest` | Integração (MockMvc) | 7 |
 | `SubtaskControllerTest` | Integração (MockMvc) | 7 |
+
+Para gerar o relatório de cobertura (HTML em `target/site/jacoco/`):
+
+```bash
+./mvnw test   # JaCoCo já está configurado no pom.xml
+```
 
 ---
 
@@ -307,3 +322,6 @@ Setup mais simples sem dependência do Docker. O H2 em `MODE=PostgreSQL` cobre t
 
 **Estratégia de cascade delete**
 O cascade é tratado no banco via `ON DELETE CASCADE` nas migrations do Flyway. Isso evita carregar entidades filhas em memória e é mais eficiente do que o cascade JPA para deleções em massa.
+
+**Por que @BatchSize nas subtarefas?**
+A coleção `subtasks` na entidade `Task` usa `@BatchSize(size=20)` para mitigar o problema N+1 ao listar tarefas. Com isso, o Hibernate carrega as subtarefas de até 20 tarefas em uma única query em vez de uma query por tarefa.

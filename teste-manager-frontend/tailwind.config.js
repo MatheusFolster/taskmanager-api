@@ -1,9 +1,17 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [],
+  content: ['./src/**/*.{html,ts}'],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+        mono: ['"JetBrains Mono"', 'monospace'],
+      },
+      colors: {
+        primary: '#18181B',
+        'primary-hover': '#27272A',
+      },
+    },
   },
   plugins: [],
-}
-
+};

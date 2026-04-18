@@ -1,0 +1,81 @@
+<section id="architecture" class="py-24 px-6 bg-gray-50">
+  <div class="max-w-6xl mx-auto">
+
+    <div class="mb-16 text-center">
+      <h2 class="text-3xl font-bold text-gray-900 mb-4">Arquitetura</h2>
+      <p class="text-gray-500 max-w-xl mx-auto">
+        Separação clara entre camadas com fluxo unidirecional de dependências.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+
+      <div>
+        <p class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-6">Fluxo de Requisição</p>
+        <svg
+          data-testid="arch-diagram"
+          viewBox="0 0 480 300"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-full"
+        >
+          <defs>
+            <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+              <polygon points="0 0, 8 3, 0 6" fill="#9CA3AF"/>
+            </marker>
+          </defs>
+
+          <rect x="160" y="10" width="160" height="44" rx="8" fill="#F3F4F6" stroke="#E5E7EB" stroke-width="1.5"/>
+          <text x="240" y="29" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12" fill="#374151">HTTP Client</text>
+          <text x="240" y="46" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#9CA3AF">JWT Bearer Token</text>
+
+          <line x1="240" y1="54" x2="240" y2="76" stroke="#D1D5DB" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+          <rect x="100" y="76" width="280" height="44" rx="8" fill="#FEF3C7" stroke="#FDE68A" stroke-width="1.5"/>
+          <text x="240" y="95" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12" fill="#92400E">JwtAuthenticationFilter</text>
+          <text x="240" y="111" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#B45309">Valida token · Autentica usuário</text>
+
+          <line x1="240" y1="120" x2="240" y2="142" stroke="#D1D5DB" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+          <rect x="130" y="142" width="220" height="44" rx="8" fill="#F9FAFB" stroke="#E5E7EB" stroke-width="1.5"/>
+          <text x="240" y="161" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12" fill="#374151">Controller</text>
+          <text x="240" y="177" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#9CA3AF">Valida input · Mapeia DTOs</text>
+
+          <line x1="240" y1="186" x2="240" y2="208" stroke="#D1D5DB" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+          <rect x="130" y="208" width="220" height="44" rx="8" fill="#F9FAFB" stroke="#E5E7EB" stroke-width="1.5"/>
+          <text x="240" y="227" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12" fill="#374151">Service</text>
+          <text x="240" y="243" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#9CA3AF">Lógica de negócio</text>
+
+          <line x1="240" y1="252" x2="240" y2="274" stroke="#D1D5DB" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+          <rect x="100" y="274" width="280" height="20" rx="6" fill="#DBEAFE" stroke="#BFDBFE" stroke-width="1.5"/>
+          <text x="240" y="288" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#1E40AF">Repository → PostgreSQL</text>
+        </svg>
+      </div>
+
+      <div>
+        <p class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-6">Estrutura de Pacotes</p>
+        <div class="bg-gray-900 rounded-xl p-6 overflow-x-auto">
+          <pre class="text-sm font-mono m-0 leading-relaxed"><span class="text-blue-400">com.taskmanager</span>
+├── <span class="text-yellow-400">config/</span>          <span class="text-gray-500"># Security, OpenAPI, JWT</span>
+├── <span class="text-yellow-400">controller/</span>      <span class="text-gray-500"># REST endpoints</span>
+├── <span class="text-yellow-400">service/</span>
+│   └── <span class="text-yellow-400">impl/</span>        <span class="text-gray-500"># Regras de negócio</span>
+├── <span class="text-yellow-400">repository/</span>      <span class="text-gray-500"># Spring Data JPA</span>
+├── <span class="text-yellow-400">entity/</span>
+│   └── <span class="text-yellow-400">enums/</span>       <span class="text-gray-500"># Status, Priority</span>
+├── <span class="text-yellow-400">dto/</span>
+│   ├── <span class="text-yellow-400">auth/</span>        <span class="text-gray-500"># Login, Register</span>
+│   ├── <span class="text-yellow-400">project/</span>
+│   ├── <span class="text-yellow-400">task/</span>
+│   └── <span class="text-yellow-400">subtask/</span>
+├── <span class="text-yellow-400">mapper/</span>          <span class="text-gray-500"># MapStruct</span>
+├── <span class="text-yellow-400">security/</span>        <span class="text-gray-500"># JWT filter</span>
+└── <span class="text-yellow-400">exception/</span>       <span class="text-gray-500"># Global handler</span></pre>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
